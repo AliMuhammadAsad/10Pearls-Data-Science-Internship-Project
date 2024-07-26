@@ -1,0 +1,16 @@
+body {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.navbar-brand img {
+    max-width: 100px;
+}
+
+.wrapper {
+    text-align: center;
+    margin-top: 30px;
+}
+
+input, select {
+    margin-bottom: 10px;
+}

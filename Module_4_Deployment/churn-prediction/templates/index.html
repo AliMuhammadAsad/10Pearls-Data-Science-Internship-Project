@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telco Customer Churn Prediction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9G9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html">
+                        <img class="nav-travel" src="../static/images/logo.png">
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-6"><b>Enter User Information in the Form Below</b></div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-3"><br>
+                    <form action="{{ url_for('predict')}}" method="post">
+
+                        <label for="gender">Gender:</label><br>
+                        <select name="gender" required="required" id="gender">
+                            <option disabled selected value> -- select -- </option>
+                            <option value="Female">Female</option>
+                            <option value="Male">Male</option>
+                        </select><br>
+
+                        <label for="SeniorCitizen">Senior Citizen:</label><br>
+                        <select name="SeniorCitizen" required="required" id="SeniorCitizen">
+                            <option disabled selected value> -- select -- </option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                        <br>
+
+                        <label for="Partner">Partner:</label><br>
+                        <select name="Partner" required="required" id="Partner">
+                            <option disabled selected value> -- select -- </option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select><br>
+
+                        <label for="Dependents">Dependents:</label><br>
+                        <select name="Dependents" required="required" id="Dependents">
+                            <option disabled selected value> -- select -- </option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select><br>
+
+                        <label for="tenure">Tenure:</label><br>
+                        <input type="number" min="1" required="required" id="tenure" name="tenure"><br>
+
+                        <label for="PhoneService">Phone Service:</label><br>
+                        <select name="PhoneService" required="required" id="PhoneService">
+                            <option disabled selected value> -- select -- </option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select><br>
+
+                        <label for="MultipleLines">Multiple Lines:</label><br>
+                        <select name="MultipleLines" required="required" id="MultipleLines">
+                            <option disabled selected value> -- select -- </option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select><br>
+
+                        <label for="InternetService">Internet Service:</label><br>
+                        <select name="InternetService" required="required" id="InternetService">
+                            <option disabled selected value> -- select -- </option>
+                            <option value="DSL">DSL</option>
+                            <option value="Fiber optic">Fiber optic</option>
+                            <option value="No">No Service</option>
+                        </select><br>
+
+                        <label for="OnlineSecurity">Online Security:</label><br>
+                        <select name="OnlineSecurity" required="required" id="OnlineSecurity">
+                            <option disabled selected value> -- select -- </option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select><br>
+
+                        <label for="OnlineBackup">Online Backup:</label><br>
+                        <select name="OnlineBackup" required="required" id="OnlineBackup">
+                            <option disabled selected value> -- select -- </option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select><br>
+
+                        <label for="DeviceProtection">Device Protection:</label><br>
+                        <select name="DeviceProtection" required="required" id="DeviceProtection">
+                            <option disabled selected value> -- select -- </option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select><br>
+
+                        <label for="TechSupport">Tech Support:</label><br>
+                        <select name="TechSupport" required="required" id="TechSupport">
+                            <option disabled selected value> -- select -- </option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select><br>
+
+                        <label for="StreamingTV">Streaming TV:</label><br>
+                        <select name="StreamingTV" required="required" id="StreamingTV">
+                            <option disabled selected value> -- select -- </option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select><br>
+
+                        <label for="StreamingMovies">Streaming Movies:</label><br>
+                        <select name="StreamingMovies" required="required" id="StreamingMovies">
+                            <option disabled selected value> -- select -- </option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select><br>
+
+                        <label for="Contract">Contract:</label><br>
+                        <select name="Contract" required="required" id="Contract">
+                            <option disabled selected value> -- select -- </option>
+                            <option value="Month-to-month">Month-to-month</option>
+                            <option value="One year">One year</option>
+                            <option value="Two year">Two year</option>
+                        </select><br>
+
+                        <label for="PaperlessBilling">Paperless Billing:</label><br>
+                        <select name="PaperlessBilling" required="required" id="PaperlessBilling">
+                            <option disabled selected value> -- select -- </option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select><br>
+
+                        <label for="PaymentMethod">Payment Method:</label><br>
+                        <select name="PaymentMethod" required="required" id="PaymentMethod">
+                            <option disabled selected value> -- select -- </option>
+                            <option value="Bank transfer (automatic)">Bank transfer (automatic)</option>
+                            <option value="Credit card (automatic)">Credit card (automatic)</option>
+                            <option value="Electronic check">Electronic check</option>
+                            <option value="Mailed check">Mailed check</option>
+                        </select><br>
+
+                        <label for="MonthlyCharges">Monthly Charges:</label><br>
+                        <input type="number" step="0.01" min="0" required="required" id="MonthlyCharges" name="MonthlyCharges"><br>
+
+                        <label for="TotalCharges">Total Charges:</label><br>
+                        <input type="number" step="0.01" min="0" required="required" id="TotalCharges" name="TotalCharges"><br>
+                        
+                        <br>
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+                <div class="col-sm-3"></div>
+            </div>
+        </div>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3"><b>Customer Information</b></div>
+                <div class="col-sm-6"><b>Prediction Results</b></div>
+                <div class="col-sm-3"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <ul>
+                        {% for key, value in maind.customer.items() %}
+                        <li>{{ key }} : {{ value }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-sm-6">
+                    <ul>
+                        {% for l in maind.predictions %}
+                        <li>{{ l.model }} : {{ l.prediction }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-sm-3"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
