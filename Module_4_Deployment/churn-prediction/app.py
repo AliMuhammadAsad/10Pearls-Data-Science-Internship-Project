@@ -93,8 +93,6 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    # values = [x for x in request.form.values()]
-    # new_array = np.array(values).reshape(1, -1)
     form_data = request.form.to_dict()
     new_array = form_to_numeric(form_data)
 
