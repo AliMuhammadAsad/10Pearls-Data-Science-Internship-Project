@@ -14,13 +14,13 @@ vcl = joblib.load('ml_models/voting_classifier_model.pkl')
 
 # Dictionary of loaded models
 models_dict = {
-    'logreg': logreg,
-    'dtree': dtree,
+    'vcl': vcl,
+    'xgb': xgb,
     'rf': rf,
     'gboost': gboost,
-    'svm': svm,
-    'xgb': xgb,
-    'vcl': vcl
+    'logreg': logreg,
+    'dtree': dtree,
+    'svm': svm
 }
 
 # Function to decode predictions
@@ -31,8 +31,6 @@ def show_pred(pred):
 def form_to_numeric(form_data):
     numeric_data = []
 
-    # SeniorCitizen, Partner, Dependents, tenure, PhoneService, MultipleLines, OnlineSecurity,
-    # OnlineBackup, DeviceProtection, TechSupport, StreamingTV, StreamingMovies, PaperlessBilling
     binary_cols = [
         'SeniorCitizen', 'Partner', 'Dependents', 'PhoneService', 'MultipleLines',
         'OnlineSecurity', 'OnlineBackup', 'DeviceProtection', 'TechSupport',
@@ -40,59 +38,54 @@ def form_to_numeric(form_data):
     ]
     binary_map = {'Yes': 1, 'No': 0, '1': 1, '0': 0, 1: 1, 0: 0}
 
-    try:
-        for col in binary_cols:
-            if form_data[col] in binary_map:
-                numeric_data.append(binary_map[form_data[col]])
-            else:
-                raise ValueError(f"Unexpected value for {col}: {form_data[col]}")
+    for col in binary_cols:
+        if form_data[col] in binary_map:
+            numeric_data.append(binary_map[form_data[col]])
+        else:
+            raise ValueError(f"Unexpected value for {col}: {form_data[col]}")
 
-        # tenure, MonthlyCharges, TotalCharges
-        numeric_data.append(int(form_data['tenure']))
-        numeric_data.append(float(form_data['MonthlyCharges']))
-        numeric_data.append(float(form_data['TotalCharges']))
+    # tenure, MonthlyCharges, TotalCharges
+    numeric_data.append(int(form_data['tenure']))
+    numeric_data.append(float(form_data['MonthlyCharges']))
+    numeric_data.append(float(form_data['TotalCharges']))
 
-        # InternetService
-        internet_service = form_data['InternetService']
-        numeric_data.append(1 if internet_service == 'No' else 0)
-        numeric_data.append(1 if internet_service == 'DSL' else 0)
-        numeric_data.append(1 if internet_service == 'Fiber optic' else 0)
+    # InternetService
+    internet_service = form_data['InternetService']
+    numeric_data.append(1 if internet_service == 'No' else 0)
+    numeric_data.append(1 if internet_service == 'DSL' else 0)
+    numeric_data.append(1 if internet_service == 'Fiber optic' else 0)
 
-        # Contract
-        contract = form_data['Contract']
-        numeric_data.append(1 if contract == 'Month-to-month' else 0)
-        numeric_data.append(1 if contract == 'One year' else 0)
-        numeric_data.append(1 if contract == 'Two year' else 0)
+    # Contract
+    contract = form_data['Contract']
+    numeric_data.append(1 if contract == 'Month-to-month' else 0)
+    numeric_data.append(1 if contract == 'One year' else 0)
+    numeric_data.append(1 if contract == 'Two year' else 0)
 
-        # PaymentMethod
-        payment_method = form_data['PaymentMethod']
-        numeric_data.append(1 if payment_method == 'Bank transfer (automatic)' else 0)
-        numeric_data.append(1 if payment_method == 'Credit card (automatic)' else 0)
-        numeric_data.append(1 if payment_method == 'Electronic check' else 0)
-        numeric_data.append(1 if payment_method == 'Mailed check' else 0)
+    # PaymentMethod
+    payment_method = form_data['PaymentMethod']
+    numeric_data.append(1 if payment_method == 'Bank transfer (automatic)' else 0)
+    numeric_data.append(1 if payment_method == 'Credit card (automatic)' else 0)
+    numeric_data.append(1 if payment_method == 'Electronic check' else 0)
+    numeric_data.append(1 if payment_method == 'Mailed check' else 0)
 
-        # Gender
-        gender = form_data['gender']
-        numeric_data.append(1 if gender == 'Female' else 0)
-        numeric_data.append(1 if gender == 'Male' else 0)
-
-    except KeyError as e:
-        raise KeyError(f"Missing expected form key: {e}")
-    except ValueError as e:
-        raise ValueError(f"Value error: {e}")
+    # Gender
+    gender = form_data['gender']
+    numeric_data.append(1 if gender == 'Female' else 0)
+    numeric_data.append(1 if gender == 'Male' else 0)
 
     return np.array(numeric_data).reshape(1, -1)
 
-
 @app.route('/')
 def home():
-    result = [{'model':'Logistic Regression', 'prediction':' '},
-              {'model':'Decision Tree', 'prediction':' '},
-              {'model':'Random Forest', 'prediction':' '},
-              {'model':'Gradient Boosting', 'prediction':' '},
-              {'model':'SVM', 'prediction':' '},
-              {'model':'XGBoost', 'prediction':' '},
-              {'model':'Voting Classifier', 'prediction':' '}]
+    result = [
+            {'model':'Voting Classifier', 'prediction':' '},
+            {'model':'XGBoost', 'prediction':' '},
+            {'model':'Random Forest', 'prediction':' '},
+            {'model':'Gradient Boosting', 'prediction':' '},
+            {'model':'Logistic Regression', 'prediction':' '},
+            {'model':'Decision Tree', 'prediction':' '},
+            {'model':'SVM', 'prediction':' '}
+              ]
 
     maind = {'customer': {}, 'predictions': result}
 
@@ -122,13 +115,14 @@ def predict():
     # Make predictions
     predl = [show_pred(m.predict(new_array)[0]) for m in models_dict.values()]
 
-    result = [{'model':'Logistic Regression', 'prediction':predl[0]},
-              {'model':'Decision Tree', 'prediction':predl[1]},
-              {'model':'Random Forest', 'prediction':predl[2]},
-              {'model':'Gradient Boosting', 'prediction':predl[3]},
-              {'model':'SVM', 'prediction':predl[4]},
-              {'model':'XGBoost', 'prediction':predl[5]},
-              {'model':'Voting Classifier', 'prediction':predl[6]}
+    result = [
+            {'model':'Voting Classifier', 'prediction':predl[0]},
+            {'model':'XGBoost', 'prediction':predl[1]},
+            {'model':'Random Forest', 'prediction':predl[2]},
+            {'model':'Gradient Boosting', 'prediction':predl[3]},
+            {'model':'Logistic Regression', 'prediction':predl[4]},
+            {'model':'Decision Tree', 'prediction':predl[5]},
+            {'model':'SVM', 'prediction':predl[6]}
     ]
 
     maind = {'customer': custard, 'predictions': result}
