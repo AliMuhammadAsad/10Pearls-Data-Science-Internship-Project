@@ -127,6 +127,19 @@ def predict():
 
     return render_template('index.html', maind=maind)
 
+@app.route('/api/predict', methods=['POST'])
+def api_predict():
+    data = request.json
+    new_array = form_to_numeric(data)
+
+    # Make precictions
+    predl = {model_name: show_pred(model.predict(new_array)[0]) for model_name, model in models_dict.items()}
+
+    return jsonify(predl)
+
+@app.route('/api/health', methods=['GET'])
+def health_check():
+    return jsonify({'status': 'Thumbs Up guys'}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
