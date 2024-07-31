@@ -87,7 +87,11 @@ The summary report along with insights is all mentioned in the [Module 3 SQL](Mo
 
 
 ### 4. Model Deployment and API Consumption
-(Under development)
+The trained models were now deployed using a Flask Application along with API for consumption. The models were saved as a pickle file, and then loaded into the Flask application. The API was then created to consume the model, and the model was tested using `Curl`.
+
+The complete documentation can be found in the [Module 4 Model Deployment](Module_4_Model_Deployment) directory in the [python notebook](model_depl_api.ipynb).
+
+Currently its being explored for deployment on a proper server, and will be updated soon.
 
 ---
 
