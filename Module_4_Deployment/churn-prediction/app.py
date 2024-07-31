@@ -13,7 +13,7 @@ xgb = joblib.load('ml_models/xgboost_tuned_model.pkl')
 vcl = joblib.load('ml_models/voting_classifier_model.pkl')
 
 # Dictionary of loaded models
-models_dict = {
+ml_models = {
     'vcl': vcl,
     'xgb': xgb,
     'rf': rf,
@@ -111,7 +111,7 @@ def predict():
         custard[k] = v
 
     # Make predictions
-    predl = [show_pred(m.predict(c_data)[0]) for m in models_dict.values()]
+    predl = [show_pred(m.predict(c_data)[0]) for m in ml_models.values()]
 
     result = [
             {'model':'Voting Classifier', 'prediction':predl[0]},
@@ -133,7 +133,7 @@ def api_predict():
     data = form_to_numeric(data)
 
     # Make precictions
-    predl = {model_name: show_pred(model.predict(data)[0]) for model_name, model in models_dict.items()}
+    predl = {model_name: show_pred(model.predict(data)[0]) for model_name, model in ml_models.items()}
 
     return jsonify(predl)
 
