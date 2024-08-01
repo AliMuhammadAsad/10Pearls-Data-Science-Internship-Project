@@ -91,7 +91,7 @@ The trained models were now deployed using a Flask Application along with API fo
 
 The complete documentation can be found in the [Module 4 Model Deployment](Module_4_Model_Deployment) directory in the [python notebook](model_depl_api.ipynb).
 
-Currently its being explored for deployment on a proper server, and will be updated soon.
+The deployed app can be accessed at [https://churn-predictor-10p-552a02dcfdbb.herokuapp.com/](https://churn-predictor-10p-552a02dcfdbb.herokuapp.com/)
 
 ---
 
