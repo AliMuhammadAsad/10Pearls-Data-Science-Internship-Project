@@ -1,6 +1,5 @@
 -- Max total charges
 select max(total_charges) as HighestTotalCharges from billing;
-
 -- Services being used by those with max total charges
 select sum(
     (case when phone_service then 1 else 0 end) +
@@ -19,6 +18,23 @@ where customer_id in (
     from public.billing
     where total_charges = (select max(total_charges) from public.billing)
 );
+-- Information of Person paying highest total charges
+SELECT 
+    c.tenure, 
+    b.monthly_charges, 
+    b.contract, 
+    b.paperless_billing, 
+    b.payment_method, 
+    cp.churn_prediction
+FROM 
+    billing b
+JOIN 
+    customers c ON b.customer_id = c.customer_id
+JOIN 
+    churn_predictions cp ON b.customer_id = cp.customer_id
+WHERE 
+    b.total_charges = (SELECT MAX(total_charges) FROM billing);
+
 
 -- Min total Charges
 select min(total_charges) as LowestTotalCharges from billing;
@@ -40,6 +56,23 @@ where customer_id in (
     from public.billing
     where total_charges = (select min(total_charges) from public.billing)
 );
+-- Info of Person paying lowest total charges
+SELECT 
+    c.tenure, 
+    b.monthly_charges, 
+    b.contract, 
+    b.paperless_billing, 
+    b.payment_method, 
+    cp.churn_prediction
+FROM 
+    billing b
+JOIN 
+    customers c ON b.customer_id = c.customer_id
+JOIN 
+    churn_predictions cp ON b.customer_id = cp.customer_id
+WHERE 
+    b.total_charges = (SELECT MIN(total_charges) FROM billing);
+
 
 -- Displaying those services
 select s.customer_id, s.phone_service, s.multiple_lines, s.internet_service, s.online_security, s.online_backup, s.device_protection, s.tech_support, s.streaming_tv, s.streaming_movies,

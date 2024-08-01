@@ -30,3 +30,19 @@ select
 	min(tenure) as MinTenure,
 	stddev(tenure) as STDDEVTenure
 from customers;
+
+-- Customers with Max tenure predicted to churn
+select count(*) as MaxTenurePredictedChurn from customers c
+join churn_predictions cp on c.customer_id = cp.customer_id
+where c.tenure = (select max(tenure) from customers) and cp.churn_prediction = true;
+
+
+-- Customers with Min tenure predicted to churn
+select count(*) as MinTenurePredictedChurn from customers c
+join churn_predictions cp on c.customer_id = cp.customer_id
+where c.tenure = (select min(tenure) from customers) and cp.churn_prediction = true;
+
+-- Customers predicted to churn with tenure of less than 1 year
+select count(*) as PredictedChurnLessThan1Year from customers c
+join churn_predictions cp on c.customer_id = cp.customer_id
+where c.tenure < 12 and cp.churn_prediction = true;
