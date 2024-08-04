@@ -52,29 +52,32 @@ The set of models was as so:
 The models were then tuned using Grid Search where appropriate, and then ranked based on various metrics. A table summary is shown below:
 
 **Single Value Rankings:**
+
 | Model | Accuracy | Precision | Recall | F1-Score | ROC-AUC | 
 | --- | --- | --- | --- | --- | --- |
-| Voting Classifier |  0.854308 | 0.850674 | 0.858115 | 0.854378 | 0.854323 |
-| XGBoost (Tuned) | 0.854308 | 0.854776 | 0.852284 | 0.853528 | 0.854300 |
-| Gradient Boosting (Tuned) | 0.851404 | 0.853922 | 0.846453 | 0.850171 | 0.851385 |
-| Logistic Regression (Tuned) | 0.845595 | 0.856426 | 0.828960 | 0.842469 | 0.845531 |
-| Random Forest (Tuned) | 0.843175 | 0.846608 | 0.836735 | 0.841642 | 0.843150 |
-| Decision Tree (Tuned) | 0.820910 | 0.828514 | 0.807580 | 0.817913 | 0.820859 |
-| Support Vector Machine | 0.644724 | 0.665174 | 0.577259 | 0.618106 | 0.644464 |
+| Random Forest (Tuned) | 0.852163 | 0.857705 | 0.844416 | 0.851008 | 0.852163 |
+| Logistic Regression (Tuned) | 0.850549 | 0.858179 | 0.839897 | 0.848940 | 0.850549 |
+| XGBoost (Tuned) | 0.848935 | 0.844927 | 0.854745 | 0.849807 | 0.848935 |
+| Voting Classifier | 0.849258 | 0.849483 | 0.848935 | 0.849209 | 0.849258 |
+| Gradient Boosting (Tuned) | 0.846030 | 0.850785 | 0.839251 | 0.844979 | 0.846030 |
+| Decision Tree (Tuned) | 0.813105 | 0.798645 | 0.837314 | 0.817523 | 0.813105 |
+| Support Vector Machine | 0.654939 | 0.670940 | 0.608134 | 0.637995 | 0.654939 |
+
 
 **Cross Validation (CV) Rankings:**
 | Model | CV Accuracy | CV Precision | CV Recall | CV F1-Score | CV ROC-AUC |
 | --- | --- | --- | --- | --- | --- |
-| Voting Classifier | 0.841964 | 0.846039 | 0.834199 | 0.828119 | 0.935283 |
-| XGBoost (Tuned) | 0.839060 | 0.849521 | 0.821803 | 0.821243 | 0.936882 |
-| Random Forest (Tuned) | 0.837509 | 0.849088 | 0.820446 | 0.820879 | 0.933112 |
-| Gradient Boosting (Tuned) | 0.836833 | 0.848448 | 0.818510 | 0.818419 | 0.935346 |
-| Logistic Regression (Tuned) | 0.830732 | 0.853064 | 0.797789 | 0.808648 | 0.932161 |
-| Decision Tree (Tuned) | 0.816008 | 0.805139 | 0.830326 | 0.810678 | 0.885085 |
-| Support Vector Machine | 0.659694 | 0.678475 | 0.607596 | 0.640950 | 0.742976 |
+| Voting Classifier | 0.839350 | 0.846102 | 0.827613 | 0.824278 | 0.937762 |
+| Gradient Boosting (Tuned) | 0.837704 | 0.851368 | 0.817155 | 0.819202 | 0.935925 |
+| XGBoost (Tuned) | 0.835864 | 0.843923 | 0.822191 | 0.819573 | 0.934392 |
+| Random Forest (Tuned) | 0.834799 | 0.846160 | 0.815219 | 0.817304 | 0.930960 |
+| Logistic Regression (Tuned) | 0.830441 | 0.853046 | 0.797593 | 0.808284 | 0.932601 |
+| Decision Tree (Tuned) | 0.811844 | 0.808856 | 0.812896 | 0.802946 | 0.888857 |
+| Support Vector Machine | 0.662211 | 0.677478 | 0.619602 | 0.647184 | 0.742601 |
 
 **Best Models**
-Based on the above values, the Voting Classifier was evaluated to be the best, with XGBoost (Tuned) coming in a close second. However, interestingly, for finding the prediction results, the **Random Forest (Tuned)** model gave the best results with **91.14%** being correct predictions.
+Based on the above values, the **Voting Classifier Model** and the **Random Forest Model** were evaluated to be the best models. The **Logistic Regression** and **Gradient Boosting models** also performed well coming in a close second.
+
 
 ### 3. SQL - Database Schema Design, SQL Queries and SQL Analysis
 For the purposes of this project, a **PostgreSQL** database was used with **pgAdmin4** for database management. As per the details of the task given, the schema had 4 tables; customers, services, billing and churn predictions, each being linked with the **customer ID** as the key (primary for customers and foreign referenced for the other tables).
